@@ -3,6 +3,8 @@ from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from hashlib import md5
 
+from .signals import password_changed
+
 PASSWORD_HASH_KEY = getattr(settings, 'PASSWORD_SESSION_PASSWORD_HASH_KEY', 'password_session_password_hash_key')
 PASSWORD_HASH_LENGTH = getattr(settings, 'PASSWORD_SESSION_PASSWORD_HASH_LENGTH', 4)
 
@@ -14,7 +16,13 @@ def get_password_hash(user):
     ).hexdigest()[:PASSWORD_HASH_LENGTH]
 
 
+def set_password_hash(user, request):
+    """Sets crypted password hash to session"""
+    request.session[PASSWORD_HASH_KEY] = get_password_hash(user)
+
+
 @receiver(user_logged_in)
+@receiver(password_changed)
 def on_login(sender, user, request, **kwargs):
     """Saves password hash in session"""
-    request.session[PASSWORD_HASH_KEY] = get_password_hash(user)
+    set_password_hash(user, request)

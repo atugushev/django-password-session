@@ -62,6 +62,35 @@ Installation
         'django.contrib.auth.middleware.AuthenticationMiddleware',
     )
 
+5. To avoid logging out from a current session you should call the following signal directly after change password:
+
+.. code-block:: python
+
+    from password_session.signals import password_changed
+    password_changed.send(sender=user.__class__, user=user, request=request)
+
+Example view
+------------
+
+It's a very simple view for change password just for demonstrating how to call the signal.
+In real situation this view should be more complicated.
+
+.. code-block:: python
+
+    from django.contrib.auth.decorators import login_required
+    from django.http import HttpResponse
+    
+    from password_session.signals import password_changed
+    
+    
+    @login_required(login_url='/admin/')
+    def change_password_view(request):
+        user = request.user
+        user.set_password(request.POST.get('password'))
+        user.save()
+        password_changed.send(sender=user.__class__, user=user, request=request)
+        return HttpResponse("Hello, %s! Your password has been changed!" % user.username)
+
 Settings
 --------
 Default application settings can be overriden in settings.py:

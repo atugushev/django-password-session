@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 
 try:
     from django.contrib.auth import get_user_model
@@ -18,18 +18,36 @@ class PasswordSessionTest(TestCase):
         user.save()
 
         # Log in
-        response = self.client.post('/admin/', follow=True, data={'username': 'albert',
-                                                                  'password': 'qwe123',
-                                                                  'this_is_the_login_form': 1,
-                                                                  'next': '/admin/'},)
+        client1 = Client()
+        client2 = Client()
+
+        # Auth client1
+        response = client1.post('/admin/', follow=True, data={'username': 'albert',
+                                                              'password': 'qwe123',
+                                                              'this_is_the_login_form': 1,
+                                                              'next': '/admin/'},)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'this_is_the_login_form')
 
-        # Change password
-        user.set_password('123qwe')
-        user.save()
+        # Auth client2
+        response = client2.post('/admin/', follow=True, data={'username': 'albert',
+                                                              'password': 'qwe123',
+                                                              'this_is_the_login_form': 1,
+                                                              'next': '/admin/'},)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'this_is_the_login_form')
 
-        # Check for log in page
-        response = self.client.get('/admin/')
+        # Change password for client1
+        response = client1.post('/password/change/', data={'password': '123qwe'})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Hello')
+
+        # client1 should be stay logged in, because it's a current session
+        response = client1.get('/admin/')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'this_is_the_login_form')
+
+        # client2 should be logged out
+        response = client2.get('/admin/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'this_is_the_login_form')
