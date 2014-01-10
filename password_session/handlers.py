@@ -10,7 +10,7 @@ PASSWORD_HASH_LENGTH = getattr(settings, 'PASSWORD_SESSION_PASSWORD_HASH_LENGTH'
 def get_password_hash(user):
     """Returns a string of crypted password hash"""
     return md5(
-        md5(user.password).hexdigest() + settings.SECRET_KEY
+        md5(user.password.encode()).hexdigest().encode() + settings.SECRET_KEY.encode()
     ).hexdigest()[:PASSWORD_HASH_LENGTH]
 
 
