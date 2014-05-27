@@ -4,6 +4,12 @@ Django Password Session
 
 A reusable Django app that will invalidate all active sessions after change password.
 
+*Since Django 1.7 this feature implemented* |warninglink|_ .
+
+.. _warninglink: https://docs.djangoproject.com/en/dev/topics/auth/default/#session-invalidation-on-password-change
+
+.. |warninglink| replace:: *out of the box*
+
 .. image:: https://badge.fury.io/py/django-password-session.png
    :target: http://badge.fury.io/py/django-password-session
 
