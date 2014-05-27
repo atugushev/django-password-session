@@ -7,11 +7,11 @@ A reusable Django app that will invalidate all active sessions after change pass
 .. image:: https://badge.fury.io/py/django-password-session.png
    :target: http://badge.fury.io/py/django-password-session
 
-.. image:: https://api.travis-ci.org/alikus/django-password-session.png
-   :target: https://travis-ci.org/alikus/django-password-session
+.. image:: https://api.travis-ci.org/atugushev/django-password-session.png
+   :target: https://travis-ci.org/atugushev/django-password-session
 
-.. image:: https://coveralls.io/repos/alikus/django-password-session/badge.png?branch=master
-    :target: https://coveralls.io/r/alikus/django-password-session?branch=master
+.. image:: https://coveralls.io/repos/atugushev/django-password-session/badge.png?branch=master
+    :target: https://coveralls.io/r/atugushev/django-password-session?branch=master
 
 Installation
 ------------
