@@ -1,1 +1,3 @@
-VERSION = '0.2'
+VERSION = '0.3'
+
+from .handlers import update_session_auth_hash
