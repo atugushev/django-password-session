@@ -17,7 +17,7 @@ A reusable Django app that will invalidate all active sessions after change pass
    :target: https://travis-ci.org/atugushev/django-password-session
 
 .. image:: https://coveralls.io/repos/atugushev/django-password-session/badge.png?branch=master
-    :target: https://coveralls.io/r/atugushev/django-password-session?branch=master
+   :target: https://coveralls.io/r/atugushev/django-password-session?branch=master
 
 Installation
 ------------
@@ -68,7 +68,7 @@ Installation
         'django.contrib.auth.middleware.AuthenticationMiddleware',
     )
 
-5. To avoid logging out from a current session you should call the following function directly after change password:
+5. To avoid logging out a user from a current session you should update the session by calling the following function directly after change a password:
 
 .. code-block:: python
 
@@ -78,8 +78,7 @@ Installation
 Example view
 ------------
 
-It's a very simple view for change password just for demonstrating how to call the signal.
-In real situation this view should be more complicated.
+It's a very simple view for change password just for demonstrating how to update a current session.
 
 .. code-block:: python
 
@@ -89,7 +88,6 @@ In real situation this view should be more complicated.
     from password_session import update_session_auth_hash
     
     
-    @login_required(login_url='/admin/')
     def change_password_view(request):
         user = request.user
         user.set_password(request.POST.get('password'))
