@@ -14,8 +14,13 @@ def get_password_hash(user):
 
 
 def update_session_auth_hash(request, user):
-    """Updates crypted password hash to session"""
-    if request.user == user:
+    """
+    Updates a session hash to prevent logging out `user` from a current session.
+
+    If `request.user` is defined through ``AuthenticationMiddleware``
+    then make sure that `user` the same as `request.user`.
+    """
+    if not hasattr(request, 'user') or request.user == user:
         request.session[PASSWORD_HASH_KEY] = get_password_hash(user)
 
 
