@@ -21,7 +21,7 @@ setup(
     license='MIT License',
     description='A reusable Django app that will invalidate all active sessions after change password.',
     long_description=README,
-    url='https://github.com/alikus/django-password-session',
+    url='https://github.com/atugushev/django-password-session',
     author='Albert Tugushev',
     author_email='albert@tugushev.ru',
     classifiers=[
