@@ -99,4 +99,4 @@ Requirements
 ------------
 
 * Python 2.6+ or 3+
-* Django 1.3+
+* Django>=1.3,<1.7

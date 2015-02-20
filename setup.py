@@ -16,7 +16,7 @@ setup(
     name='django-password-session',
     version=VERSION,
     packages=['password_session'],
-    install_requires=['Django>=1.3'],
+    install_requires=['Django>=1.3,<1.7'],
     include_package_data=True,
     license='MIT License',
     description='A reusable Django app that will invalidate all active sessions after change password.',
